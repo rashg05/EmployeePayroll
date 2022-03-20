@@ -18,4 +18,10 @@ public class EmployeePayrollServiceTest {
 		employeePayrollService.writeEmployeePayrollData(FILE_IO);
 		employeePayrollService.printData(FILE_IO);
 	}
+	
+	 @Test
+	    public void givenFileOnReadingFromFile() {
+	        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+	        employeePayrollService.readEmployeePayrollData(FILE_IO);
+	    }
 }

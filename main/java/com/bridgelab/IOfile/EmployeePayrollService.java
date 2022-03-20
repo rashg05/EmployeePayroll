@@ -43,10 +43,22 @@ public class EmployeePayrollService {
 		double salary = consoleInputReader.nextDouble();
 		employeePayrollList.add(new EmployeePayrollData(id, name, salary));
 	}
+	
 	public void printData(IOService ioService) {
 		if (ioService.equals(IOService.FILE_IO))
 			new EmployeePayrollFileIO().printData();
 
 	}
+	
+	public long countEntries(IOService ioService) {
+        if (ioService.equals(IOService.FILE_IO))
+         return  new EmployeePayrollFileIO().countEntries();
+        return 0;
+    }
+	
+    public void readEmployeePayrollData(IOService ioService) {
+        if (ioService.equals(IOService.FILE_IO))
+           new EmployeePayrollFileIO().readData();
+    }
 
 }

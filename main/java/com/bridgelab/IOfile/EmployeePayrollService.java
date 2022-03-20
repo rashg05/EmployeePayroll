@@ -1,34 +1,52 @@
 package com.bridgelab.IOfile;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmployeePayrollService {
 
 	public enum IOService {CONSOLE_IO, FILE_IO, DB_IO, REST_IO}
-	
-	
-	ArrayList<EmployeePayrollData> employeePayrolldata = new ArrayList<>();
+
+
+	private List<EmployeePayrollData> employeePayrollList;
+
+	public EmployeePayrollService() {
+	}
+
+	public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
+		this.employeePayrollList = employeePayrollList;
+	}
 
 	public static void main(String[] args) {
-		EmployeePayrollService service = new EmployeePayrollService();
-		Scanner sc = new Scanner(System.in);
-		service.readEmployeePayrollData(sc);
-		service.writeEmployeePayrollData();
+		ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
+		Scanner consoleInputReader = new Scanner(System.in);
+		employeePayrollService.readEmployeePayrollData(consoleInputReader);
+		employeePayrollService.writeEmployeePayrollData(IOService.CONSOLE_IO);
+
 	}
 
-	public void readEmployeePayrollData(Scanner sc) {
-		System.out.println("Enter Employee ID: ");
-		int id = sc.nextInt();
-		System.out.println("Enter Employee Name: ");
-		String name = sc.next();
+	public void writeEmployeePayrollData(IOService ioService) {
+		if(ioService.equals(IOService.CONSOLE_IO))
+			System.out.println("\n Writing Employee Roaster to console\n " + employeePayrollList);
+		else if (ioService.equals(IOService.FILE_IO))
+			new EmployeePayrollFileIO().writeData(employeePayrollList);
+	}
+
+	private void readEmployeePayrollData(Scanner consoleInputReader) {
+		System.out.print("Enter Employee ID: ");
+		int id = consoleInputReader.nextInt();
+		System.out.print("Enter Employee name: ");
+		String name = consoleInputReader.next();
 		System.out.println("Enter Employee Salary: ");
-		double salary = sc.nextDouble();
-		employeePayrolldata.add(new EmployeePayrollData(id, name, salary));
+		double salary = consoleInputReader.nextDouble();
+		employeePayrollList.add(new EmployeePayrollData(id, name, salary));
 	}
+	public void printData(IOService ioService) {
+		if (ioService.equals(IOService.FILE_IO))
+			new EmployeePayrollFileIO().printData();
 
-	public void writeEmployeePayrollData() {
-		System.out.println("\nWriting Employee Payroll Roaster to console\n" + employeePayrolldata);
 	}
 
 }
